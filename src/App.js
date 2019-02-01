@@ -1,27 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.boxRef = React.createRef()
+    this.state={
+      height : null,
+      width : null,
+    }
+    this.getSize = this.getSize.bind(this)
+  }
+  getSize = e => {
+    this.setState({
+      height: this.boxRef.current.clientHeight,
+      width: this.boxRef.current.clientWidth,
+    })
+  }
+  componentDidMount(){
+    window.addEventListener('resize',this.getSize)
+    this.getSize()
+  }
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+    return(
+      <>
+        <div className="outer-box">
+          <div className="box" id='box' ref={this.boxRef} > 
+            <p>{this.state.width} * {this.state.height} </p>
+          </div>
+        </div>
+      </>
+    ) 
   }
 }
 
